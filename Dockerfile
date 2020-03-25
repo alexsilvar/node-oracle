@@ -1,16 +1,27 @@
-FROM store/oracle/database-instantclient:12.2.0.1 AS client
+FROM oraclelinux:7-slim
 
-# ADD ol7_developer_nodejs8.repo /etc/yum.repos.d/ol7_developer_nodejs8.repo
-
-FROM node:12.2.0-alpine
-# ENV NODE_ENV production
-# ENV NODE_ORACLEDB_USER user
-# ENV NODE_ORACLEDB_PASSWORD asdjkalsdjkl
-# ENV NODE_ORACLEDB_CONNECTIONSTRING localhost/blabla
-
+# Create app directory
 WORKDIR /usr/src/app
+
+
+# Update Oracle Linux
+# Install Node.js
+# Install the Oracle Instant Client
+# Check that Node.js and NPM installed correctly
+# Install the OracleDB driver
+RUN yum update -y && \
+    yum install -y oracle-release-el7 && \
+    yum install -y oracle-nodejs-release-el7 && \
+    yum install nodejs -y \
+    yum install -y oracle-instantclient19.3-basic.x86_64 && \
+    yum clean all && \
+    node --version && \
+    npm --version && \
+    echo Installed
+
 COPY ["package.json", "package-lock.json*", "npm-shrinkwrap.json*", "./"]
 RUN npm install --production --silent && mv node_modules ../
 COPY . .
-EXPOSE 3000
-CMD npm start
+
+
+CMD ["npm", "start"]

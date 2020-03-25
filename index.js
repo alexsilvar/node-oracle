@@ -23,6 +23,7 @@ oracledb.getConnection({
         res.status(200).send({
             msg: "falha na conexão com banco do servidor",
             err: err,
+            env: process.env
         });
     })
 }).finally(() => {
