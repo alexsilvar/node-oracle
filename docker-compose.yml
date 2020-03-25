@@ -1,0 +1,13 @@
+version: '3.4'
+
+services:
+  node-oracle:
+    image: node-oracle
+    build: .
+    environment:
+      NODE_ENV: production
+      NODE_ORACLEDB_USER: ${NODE_ORACLEDB_USER}
+      NODE_ORACLEDB_PASSWORD: ${NODE_ORACLEDB_PASSWORD}
+      NODE_ORACLEDB_CONNECTIONSTRING: ${NODE_ORACLEDB_CONNECTIONSTRING}
+    ports:
+      - 3000:3000
